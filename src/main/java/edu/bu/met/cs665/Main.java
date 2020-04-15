@@ -1,44 +1,72 @@
 package edu.bu.met.cs665;
 
-import edu.bu.met.cs665.example1.Person;
-import org.apache.log4j.Logger;
+
+import edu.bu.met.cs665.Factories.*;
+import edu.bu.met.cs665.FooterPackage.*;
+import edu.bu.met.cs665.HeaderPackage.*;
+import edu.bu.met.cs665.MainBodyPackage.*;
+
+import java.io.*;
 // import org.apache.log4j.PropertyConfigurator;
+
+
+/**
+ * @author Asiya Ahmed
+ */
 
 public class Main {
 
-  private static Logger logger = Logger.getLogger(Main.class);
-
-
   /**
-   * A main method to run examples.
+   * This main method tests one of the entities for the email generator
    *
    * @param args not used
    */
-  public static void main(String[] args) {
 
-    // This configuration is for setting up the log4j properties file.
-    // It is better to set this using java program arguments.
-    // PropertyConfigurator.configure("log4j.properties");
+  public static void main(String[] args) throws IOException, Exception{
 
-    // Let us create an object of the Main class.
-    Main m = new Main();
+    FactoryProducer object = FactoryProducer.getInstance();
+    //get business factory
+    BuildTheFactories BusinessTest = FactoryProducer.getFactory("Business");
+    //get header object
+    EmailHeader head1 = BusinessTest.getHeader("BusinessHeader");
+    System.out.println("E-mail Header");
+    head1.generateNames();
+    head1.generateRandomDate();
+    head1.generateEncryption();
+    System.out.println();
+    System.out.println();
 
-    logger.info(m.doIt());
+    //BODY
+    EmailBody body1 = BusinessTest.getBody("BusinessBody");
+    body1.readEmailBody();
+    body1.encryptBodyOfEmail();
 
-    logger.trace("Trace Message!");
-    logger.debug("Debug Message!");
-    logger.info("Info Message!");
-    logger.warn("Warn Message!");
-    logger.error("Error Message!");
-    logger.fatal("Fatal Message!");
+    System.out.println();
+    System.out.println();
+    //Footer
+    FooterAbstractClass footer1 = BusinessTest.getFooter("BusinessFooter");
+    footer1.socialMedia();
+    footer1.LegalDisclaimer();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   }
 
 
 
-  private String doIt() {
-    Person student = new Person("John", "Doe");
-    return student.getLastName() + ',' + student.getLastName();
-  }
+
 
 }
